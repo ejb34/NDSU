@@ -27,7 +27,7 @@ public class ROB {
         
         
         //if exception, see BB steps
-        if(exception) {
+        if() {
             return true;    
         }
         
