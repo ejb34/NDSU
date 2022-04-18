@@ -17,4 +17,23 @@ public class Buffer {
         this.value = value;
         this.exception = exception;
     }
+
+    public int getValue() {
+        return value;
+    }
+
+    public int getDestReg() {
+        return destReg;
+    }
+    
+
+    /**
+     * @return  status fo exception for the data
+     * -Ethan
+     */
+    public boolean getExceptionStatus() {
+        return exception;
+    }
+    
+
 }
