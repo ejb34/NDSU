@@ -34,8 +34,17 @@ public class ResStationUnit {
         
         
         
-        boolean terminate = rob.advanceROB();
+        boolean terminate = rob.advanceROB(this.rat);
         if(terminate) {
+            
+            
+            
+            
+            //NEED TO CLEAR INSTR QUEUE
+            
+            
+            
+            
             return true;
         }
         

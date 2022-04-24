@@ -28,33 +28,38 @@ public class ROB {
         -Ethan
         */
         if(rob[commitPointer].getExceptionStatus()) {
-            System.out.println("done screwed it");
+            System.out.println("Exception Detected");
             for(Buffer entry : rob){
                entry = null;
             }
-            //I assume this true bool indicates an exception was detected? -Ethan
+            
+            //reset pointers
+            issuePointer = 0;
+            commitPointer = 0;
+            
+            //point all RAT entries to RF
+            for(int i = 0; i < rat.getSize(); i++) {
+                rat.setEntry(i, -1000);
+            }
+            
+            //Exception deteced, pass up the chain to RSUnit to clear Instr Queue
             return true;    
         }
         
-        /*
-        Check to make sure the below is the proper way of finding the right DST_REG and REG_VAL for the rest of 
-        the implementation. I easily may misunderstand the way you have the pointers behaving.
-        -Ethan
-        */
-         rat.setEntry(rob[commitPointer].getDestReg(), rob[commitPointer].getValue());
-        
+        //check current ROB entry, set values, release ROB entry
+        if(rob[commitPointer].isDone()) {
+            //after committed, reset entry to null
+            rat.setEntry(rob[commitPointer].getDestReg(), rob[commitPointer].getValue());
+            rob[commitPointer] = null;
 
-        //after committed, reset entry to null
-        
-        //This should be good enough right? lol -Ethan
-        rob[commitPointer] = null;
-
-        
-        if(commitPointer == 6) {
-            commitPointer = 0;
+            commitPointer++;
+            //cycle to valid index
+            if(commitPointer == 6) {
+                commitPointer = 0;
+            }
         }
         
-        //I assume false bool continues advancement in main -Ethan
+        //No exceptions detected, run like normal
         return false;
     }
     
@@ -68,6 +73,7 @@ public class ROB {
             rob[issuePointer] = new Buffer(register);
             
             issuePointer++;
+            //cycle to valid index
             if(issuePointer == 6) {
                 issuePointer = 0;
             }

@@ -16,6 +16,7 @@ public class Buffer {
     public void setValue(int value, boolean exception) {
         this.value = value;
         this.exception = exception;
+        this.done = true;
     }
 
     public int getValue() {
@@ -26,9 +27,12 @@ public class Buffer {
         return destReg;
     }
     
+    public boolean isDone() {
+        return this.done;
+    }
 
     /**
-     * @return  status fo exception for the data
+     * @return  status of exception for the data
      * -Ethan
      */
     public boolean getExceptionStatus() {
