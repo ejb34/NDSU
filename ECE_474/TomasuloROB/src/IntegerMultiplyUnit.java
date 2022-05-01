@@ -7,12 +7,12 @@ public class IntegerMultiplyUnit {
     private static final int DIV_CYCLES = 40;
     private static int opcode = -1000, value1 = -1000, value2 = -1000, dest = -1000;
     private static int clocksElapsed = 0;
-    private static boolean busy = false, finished = false;
+    private static boolean busy = false, finished = false, exceptionPresent = false;
     private static int[] result = {-1000, -1000};
     
     public IntegerMultiplyUnit() {}
     
-    public void advanceUnit() {
+    public boolean advanceUnit() {
         if(!finished) {
             clocksElapsed++;
 
@@ -26,30 +26,11 @@ public class IntegerMultiplyUnit {
                 //broadcast to dest/RAT
                 finished = true;
                 
-                
-                
-                
-                
-                
-                
                 //pass exception = true to ROB
+                this.exceptionPresent = true;
+                
                 result[0] = 0;
-                
-                
-                
-                
-                
-                
-                
-                
                 result[1] = this.dest;
-                
-                
-                
-                
-                
-                
-                
             }
             else if(opcode == 3 && clocksElapsed == DIV_CYCLES) {
                 //broadcast to dest/RAT
@@ -58,10 +39,13 @@ public class IntegerMultiplyUnit {
                 result[1] = this.dest;
             }
         }
+        
+        return exceptionPresent;
     }
     
     public void dispatch(int opcode, int v1, int v2, int dest) {
         this.busy = true;
+        this.exceptionPresent = false;
         this.opcode = opcode;
         this.value1 = v1;
         this.value2 = v2;

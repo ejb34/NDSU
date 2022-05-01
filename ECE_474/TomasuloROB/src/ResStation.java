@@ -7,7 +7,7 @@ public class ResStation {
     private int value1, value2;
     private int tag1, tag2;
     private int dest;
-    private boolean busy, dispatched;
+    private boolean busy;
     
     public ResStation(int opcode, int value1, int value2, int tag1, int tag2, int dest) {
         this.opcode = opcode;
@@ -17,7 +17,6 @@ public class ResStation {
         this.tag2 = tag2;
         this.dest = dest;
         this.busy = true;
-        this.dispatched = false;
     }
     
     public ResStation() {
@@ -28,7 +27,6 @@ public class ResStation {
         this.tag2 = -1000;
         this.dest = -1000;
         this.busy = false;
-        this.dispatched = false;
     }
     
     public boolean isBusy() {
@@ -69,13 +67,5 @@ public class ResStation {
     
     public void setValue2(int value) {
         this.value2 = value;
-    }
-    
-    public void setDispatched(boolean value) {
-        this.dispatched = value;
-    }
-    
-    public boolean isDispatched() {
-        return this.dispatched;
     }
 }

@@ -20,14 +20,14 @@ public class ROB {
   * @param rat
   * @return if thee ROB was dumped due to an exception
   */
-    public boolean advanceROB(RAT rat) {
+    public boolean advanceROB(RAT rat, RegisterFile rf) {
 
         
         /* 
         dump Rob same way you intiitalized it above
         -Ethan
         */
-        if(rob[commitPointer].getExceptionStatus()) {
+        if(rob[commitPointer] != null && rob[commitPointer].getExceptionStatus()) {
             System.out.println("Exception Detected");
             for(Buffer entry : rob){
                entry = null;
@@ -47,9 +47,16 @@ public class ROB {
         }
         
         //check current ROB entry, set values, release ROB entry
-        if(rob[commitPointer].isDone()) {
-            //after committed, reset entry to null
-            rat.setEntry(rob[commitPointer].getDestReg(), rob[commitPointer].getValue());
+        if(rob[commitPointer] != null && rob[commitPointer].isDone()) {
+            //update rf
+            rf.setRegister(rob[commitPointer].getDestReg(), rob[commitPointer].getValue());
+            
+            //update RAT
+            if(rat.getEntry(rob[commitPointer].getDestReg()) == commitPointer) {
+                rat.setEntry(rob[commitPointer].getDestReg(), -1000);
+            }
+            
+            //reset to null after commit
             rob[commitPointer] = null;
 
             commitPointer++;
@@ -82,5 +89,26 @@ public class ROB {
         }
         
         return false;
+    }
+    
+    public boolean isROBFull() {
+        return issuePointer == commitPointer && !isEmpty();
+    }
+    
+    public int getIssuePointer() {
+        return this.issuePointer;
+    }
+    
+    public int getCommitPointer() {
+        return this.commitPointer;
+    }
+    
+    public boolean isEmpty() {
+        for(Buffer buffer : rob) {
+            if(buffer != null) {
+                return false;
+            }
+        }
+        return true;
     }
 }

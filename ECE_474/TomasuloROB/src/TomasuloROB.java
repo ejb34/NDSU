@@ -83,22 +83,16 @@ public class TomasuloROB {
         System.out.println("Number of Instructions: " + numberOfInstructions);
         System.out.println("Clock Cycles: " + numberofClockCycles + "\n");
         for(int cycle = 0; cycle < numberofClockCycles; cycle++) {      
+            
+            //terminate if expection is present
             boolean terminate = resUnit.advanceUnit();
-            
-            
-            
             if(terminate) {
                 break;
             }
             
-            
-            
-            
-            
-            
             System.out.println("Clock Cycle " + (cycle+1));
             //print RSUnit
-            System.out.println("\tBusy\tOp\tV1\tV2\tT1\tT2\tDisp");
+            System.out.println("\tBusy\tOp\tV1\tV2\tT1\tT2\tROB");
             for(int i = 0; i < resStations.length; i++) {
                 ResStation station = resStations[i];
                 System.out.print("RS" + (i+1) + " :\t");
@@ -118,7 +112,12 @@ public class TomasuloROB {
                 else {
                     System.out.print(station.getTag2() + "\t");
                 }
-                System.out.print(station.isDispatched() + "\n");
+                if(station.getDest() != -1000) {
+                    System.out.print(station.getDest()+1 + "\t\n");
+                }
+                else {
+                    System.out.print(station.getDest()+ "\t\n");
+                }
             }
             System.out.println();
         }
@@ -169,7 +168,7 @@ public class TomasuloROB {
                 
         
         //print RSUnit
-        System.out.println("\tBusy\tOp\tV1\tV2\tT1\tT2\tDisp");
+        System.out.println("\tBusy\tOp\tV1\tV2\tT1\tT2\tROB");
         for(int i = 0; i < resStations.length; i++) {
             ResStation station = resStations[i];
             System.out.print("RS" + (i+1) + " :\t");
@@ -189,7 +188,12 @@ public class TomasuloROB {
             else {
                 System.out.print(station.getTag2() + "\t");
             }
-            System.out.print(station.isDispatched() + "\n");
+            if(station.getDest() != -1000) {
+                System.out.print(station.getDest()+1 + "\t\n");
+            }
+            else {
+                System.out.print(station.getDest()+ "\t\n");
+            }
         }
     }
 }
