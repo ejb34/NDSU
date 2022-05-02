@@ -119,6 +119,17 @@ public class TomasuloROB {
                     System.out.print(station.getDest()+ "\t\n");
                 }
             }
+        //print ROB 
+        
+        System.out.println("\nTotal Commits: " + rob.getCommitPointer() + "\nMost Recent Issue: ROB" + rob.getIssuePointer() +
+                "\nNext Issue: ROB" + (rob.getIssuePointer()+ 1) + "\n");
+        for(int i = 0 ; i < robArray.length; i++){
+                    System.out.println("ROB" + (i+1) + " :\t" + rob.getEntryVal(i));
+           }
+        
+        System.out.println();
+            
+            
             System.out.println();
         }
         System.out.println("\t|\n\t|\n\t|After Execution\n\t|\n\tV\n");
@@ -155,18 +166,7 @@ public class TomasuloROB {
                 System.out.println(i + ":\t" + rf[i] + "\t" + rat.getEntry(i));
             }
         } System.out.println();
-        
-        
-        
-        
-        
-        //print ROB and pointers
-        
-        
-        
-        
-                
-        
+
         //print RSUnit
         System.out.println("\tBusy\tOp\tV1\tV2\tT1\tT2\tROB");
         for(int i = 0; i < resStations.length; i++) {

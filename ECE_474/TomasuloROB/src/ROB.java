@@ -111,4 +111,19 @@ public class ROB {
         }
         return true;
     }
+    /**
+     * 
+     * @param entryNum
+     * @return value of passed ROB entry
+     */
+    public int getEntryVal(int entryNum){
+        if(this.rob[entryNum] == null){
+            return -1000;
+        } 
+        
+        return this.rob[entryNum].getValue();
+    }
+    
+    
+    
 }
