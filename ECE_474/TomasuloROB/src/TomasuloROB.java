@@ -27,6 +27,7 @@ public class TomasuloROB {
         ResStationUnit resUnit = new ResStationUnit(registerFile, rat, rob, resStations, instrQueue);
         
         int numberOfInstructions = 0, numberofClockCycles = 0;
+        boolean terminate = false;
         
         
         //read in text file to initialize queue, rf, and constants
@@ -61,7 +62,7 @@ public class TomasuloROB {
                 lineCounter++;
             }
         } catch(FileNotFoundException fnfe) {
-            System.out.println("It done broke");
+            System.out.println("FILE NOT FOUND");
         }
         
         
@@ -85,7 +86,7 @@ public class TomasuloROB {
         for(int cycle = 0; cycle < numberofClockCycles; cycle++) {      
             
             //terminate if expection is present
-            boolean terminate = resUnit.advanceUnit();
+            terminate = resUnit.advanceUnit();
             if(terminate) {
                 break;
             }
@@ -119,25 +120,30 @@ public class TomasuloROB {
                     System.out.print(station.getDest()+ "\t\n");
                 }
             }
-        //print ROB 
-        
-        System.out.println("\nTotal Commits: " + rob.getCommitPointer() + "\nMost Recent Issue: ROB" + rob.getIssuePointer() +
-                "\nNext Issue: ROB" + (rob.getIssuePointer()+ 1) + "\n");
-        for(int i = 0 ; i < robArray.length; i++){
-                    System.out.println("ROB" + (i+1) + " :\t" + rob.getEntryVal(i));
-           }
-        
-        System.out.println();
             
             
-            System.out.println();
+            //print ROB 
+            System.out.println("\nTotal Commits: " + rob.getTotalCommits() + "\nCommit Pointer: ROB" + (rob.getCommitPointer()+1) +
+                    "\nIssue Pointer: ROB" + (rob.getIssuePointer()+1) + "\n");
+            System.out.println("\tValue\tDone\tException");
+            for(int i = 0; i < robArray.length; i++) {
+                System.out.print("ROB" + (i+1) + " :\t");
+                System.out.print(rob.getEntryVal(i) + "\t");
+                System.out.print(rob.getEntryDone(i) + "\t");
+                System.out.print(rob.getException(i) + "\t\n");
+            }
+        
+            System.out.println("\n");
         }
         System.out.println("\t|\n\t|\n\t|After Execution\n\t|\n\tV\n");
                 
         
         //print ending instruction queue
         System.out.println("Ending Instruction Queue:");
-        if(instrQueue.size() == 0) {
+        if(instrQueue.isEmpty() && terminate) {
+            System.out.println("Exception was detected and instruction queue was emptied\n");
+        }
+        else if(instrQueue.isEmpty() && !terminate) {
             System.out.println("All instructions were issued\n");
         }
         else {
@@ -166,6 +172,19 @@ public class TomasuloROB {
                 System.out.println(i + ":\t" + rf[i] + "\t" + rat.getEntry(i));
             }
         } System.out.println();
+        
+        //print ROB 
+        System.out.println("Total Commits: " + rob.getTotalCommits() + "\nCommit Pointer: ROB" + (rob.getCommitPointer()+1) +
+                "\nIssue Pointer: ROB" + (rob.getIssuePointer()+1) + "\n");
+
+        System.out.println("\tValue\tDone\tException");
+        for(int i = 0; i < robArray.length; i++) {
+            System.out.print("ROB" + (i+1) + " :\t");
+            System.out.print(rob.getEntryVal(i) + "\t");
+            System.out.print(rob.getEntryDone(i) + "\t");
+            System.out.print(rob.getException(i) + "\t\n");
+        }
+        System.out.println();
 
         //print RSUnit
         System.out.println("\tBusy\tOp\tV1\tV2\tT1\tT2\tROB");

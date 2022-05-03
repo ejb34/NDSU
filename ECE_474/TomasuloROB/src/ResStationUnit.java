@@ -38,8 +38,8 @@ public class ResStationUnit {
             instrQueue.clear();
             
             //clear RS
-            for(ResStation station : resArray) {
-                station = new ResStation();
+            for(int i = 0; i < resArray.length; i++) {
+                resArray[i] = new ResStation();
             }
             
             return true;

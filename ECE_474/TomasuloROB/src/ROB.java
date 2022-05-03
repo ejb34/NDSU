@@ -5,6 +5,7 @@
 public class ROB {
     private static Buffer[] rob;
     private static int issuePointer, commitPointer;
+    private static int totalCommits = 0;
     
     public ROB(Buffer[] rob, int issue, int commit) {
         this.rob = rob;
@@ -28,9 +29,11 @@ public class ROB {
         -Ethan
         */
         if(rob[commitPointer] != null && rob[commitPointer].getExceptionStatus()) {
-            System.out.println("Exception Detected");
-            for(Buffer entry : rob){
-               entry = null;
+            System.out.println("------------------------------------------------------------------");
+            System.out.println("EXCEPTION DETECTED\tEXCEPTION DETECTED\tEXCEPTION DETECTED");
+            System.out.println("------------------------------------------------------------------\n");
+            for(int i = 0; i < rob.length; i++){
+               rob[i] = null;
             }
             
             //reset pointers
@@ -59,6 +62,7 @@ public class ROB {
             //reset to null after commit
             rob[commitPointer] = null;
 
+            totalCommits++;
             commitPointer++;
             //cycle to valid index
             if(commitPointer == 6) {
@@ -96,11 +100,15 @@ public class ROB {
     }
     
     public int getIssuePointer() {
-        return this.issuePointer;
+        return ROB.issuePointer;
     }
     
     public int getCommitPointer() {
-        return this.commitPointer;
+        return ROB.commitPointer;
+    }
+    
+    public int getTotalCommits() {
+        return ROB.totalCommits;
     }
     
     public boolean isEmpty() {
@@ -124,6 +132,19 @@ public class ROB {
         return this.rob[entryNum].getValue();
     }
     
+    public boolean getEntryDone(int entryNum) {
+        if(this.rob[entryNum] == null){
+            return false;
+        } 
+        
+        return this.rob[entryNum].isDone();
+    }
     
-    
+    public int getException(int entryNum) {
+        if(this.rob[entryNum] == null){
+            return 0;
+        } 
+        
+        return this.rob[entryNum].getExceptionStatus() ? 1 : 0;
+    }
 }
